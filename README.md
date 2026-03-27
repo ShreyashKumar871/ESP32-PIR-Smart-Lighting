@@ -31,8 +31,6 @@ This project solves a common problem: **lighting control for quick room visits**
 - **Override mode** forces lights ON 24/7 (bypasses all automation)
 
 ### Visual Feedback
-- **Comet LED pattern** with 1 red + 2 blue LEDs
-- Smooth tail fade effect shows system is active
 - Real-time status indicators on web dashboard
 
 ### Smart Controls
@@ -51,8 +49,6 @@ This project solves a common problem: **lighting control for quick room visits**
 | ESP32 Development Board | 1 | Any variant (DevKitC, NodeMCU-32S, etc.) |
 | PIR Motion Sensor (HC-SR501) | 1 | 3-pin module |
 | 2-Channel 5V Relay Module | 1 | Active LOW trigger |
-| LEDs | 3 | 1× Red, 2× Blue (5mm) |
-| Resistors (220Ω) | 3 | For LED current limiting |
 | Jumper Wires | ~15 | Male-to-female recommended |
 | Breadboard | 1 | Optional for prototyping |
 | 5V Power Supply | 1 | 2A minimum for ESP32 + relays |
@@ -81,11 +77,6 @@ ESP32          →  2-Channel Relay Module
 ├─ GND         →  GND
 ├─ GPIO 33     →  IN1 (Relay 1)
 └─ GPIO 32     →  IN2 (Relay 2)
-
-ESP32          →  LED Indicators
-├─ GPIO 25     →  Red LED    (through 220Ω resistor → GND)
-├─ GPIO 26     →  Blue LED 1 (through 220Ω resistor → GND)
-└─ GPIO 27     →  Blue LED 2 (through 220Ω resistor → GND)
 ```
 
 ### Relay to Tubelight Wiring
@@ -133,17 +124,7 @@ AC Mains (Neutral) → Direct to both tubelights
 4. Connect Relay IN2 to ESP32 **GPIO 32**
 5. Verify relay jumper is set to **LOW trigger** (common on most modules)
 
-### Step 4: Wire the LED Indicators
-For each LED:
-1. Longer leg (anode) → GPIO pin
-2. Shorter leg (cathode) → 220Ω resistor → GND
-
-Connections:
-- Red LED: GPIO 25
-- Blue LED 1: GPIO 26
-- Blue LED 2: GPIO 27
-
-### Step 5: Upload the Code
+### Step 4: Upload the Code
 1. Open the `.ino` file in Arduino IDE
 2. **CRITICAL**: Update WiFi credentials (lines 12-13):
    ```cpp
@@ -154,7 +135,7 @@ Connections:
 4. Open Serial Monitor (115200 baud) to see connection status
 5. Note the IP address displayed (e.g., `192.168.1.100`)
 
-### Step 6: Connect Tubelights (AC Wiring)
+### Step 5: Connect Tubelights (AC Wiring)
 > ⚠️ **DISCONNECT MAINS POWER BEFORE WIRING**
 
 1. **Relay 1 (Tubelight 1):**
@@ -171,7 +152,7 @@ Connections:
 4. Ensure all connections are secure and insulated
 5. Mount relay module in an electrical enclosure
 
-### Step 7: Test the System
+### Step 6: Test the System
 1. Power on the ESP32
 2. Wait for WiFi connection (check Serial Monitor)
 3. Open web browser on your phone/computer
@@ -251,13 +232,7 @@ Change the 5-second delay (line 23):
 #define RELAY_ON_DURATION 5000  // 5000ms = 5 seconds
 // Example: 10 seconds
 #define RELAY_ON_DURATION 10000
-```
 
-### LED Comet Speed
-Adjust the pattern speed (line 41):
-```cpp
-const int COMET_SPEED = 150; // milliseconds between moves
-// Faster: 100ms  |  Slower: 300ms
 ```
 
 ### Timezone
@@ -313,16 +288,6 @@ const long gmtOffset = -18000;
 3. Wait up to 1 minute for initial sync
 4. Try alternative NTP server: `"time.google.com"`
 5. System still functions, just no time display
-
-### LEDs Not Lighting
-**Symptoms:** No comet pattern visible
-
-**Solutions:**
-1. Check LED polarity (long leg = anode → GPIO)
-2. Verify resistor values (220Ω recommended)
-3. Test individual LEDs with multimeter
-4. Confirm GPIO pins 25, 26, 27 not used elsewhere
-5. Check connections are secure
 
 ---
 
@@ -432,19 +397,6 @@ Contributions welcome! Here's how:
 - **ESP32 Community** for excellent Arduino support
 - **WebServer library** maintainers
 - Inspiration from home automation enthusiasts
-
----
-
-## 📸 Gallery
-
-### Hardware Setup
-*Add photos of your assembled system here*
-
-### Web Dashboard Screenshots
-*Add dashboard screenshots in different states*
-
-### LED Pattern Demo
-*Add video/GIF of comet LED effect*
 
 ---
 
